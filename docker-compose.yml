@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: user-profile-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: user_profile_db
+      POSTGRES_USER: user_profile_user
+      POSTGRES_PASSWORD: user_profile_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
