@@ -1,122 +1,85 @@
-User Profile Service
+Com certeza! Preparei uma versão estruturada em **Markdown** seguindo as melhores práticas de documentação para o GitHub, utilizando ícones, seções claras e blocos de código bem definidos.
 
-Este projeto é um microserviço Spring Boot responsável pelo gerenciamento de perfis de usuários. Ele utiliza PostgreSQL como banco de dados, JWT para segurança e Docker apenas para subir a infraestrutura do banco.
+Basta copiar o conteúdo abaixo e colar no seu arquivo `README.md`.
 
-Arquitetura
+---
 
-Spring Boot rodando localmente (host machine)
+# 👤 User Profile Service
 
-PostgreSQL rodando em container Docker
+Este é um microserviço robusto desenvolvido em **Spring Boot** para o gerenciamento de perfis de usuários. A aplicação foca em segurança, escalabilidade e facilidade de configuração local.
 
-Comunicação via localhost
+## 🚀 Arquitetura
 
-Configurações sensíveis externalizadas via variáveis de ambiente
+A aplicação foi desenhada para rodar de forma híbrida durante o desenvolvimento:
 
-Tecnologias Utilizadas
+* **Aplicação:** Spring Boot rodando na máquina host para facilitar o debug.
+* **Banco de Dados:** PostgreSQL isolado em um container Docker.
+* **Segurança:** Autenticação Stateless via JWT (JSON Web Tokens).
 
-Java 17+
+---
 
-Spring Boot
+## 🛠 Tecnologias Utilizadas
 
-Spring Data JPA
+* **Java 17+**
+* **Spring Boot 3** (Data JPA, Security, Web)
+* **JWT** (JSON Web Token)
+* **PostgreSQL 16**
+* **Docker & Docker Compose**
+* **Maven**
 
-Spring Security (JWT)
+---
 
-PostgreSQL 16
+## ⚙️ Configuração e Instalação
 
-Docker / Docker Compose
+### 1. Pré-requisitos
 
-Maven
+* Java 17 ou superior instalado.
+* Docker e Docker Compose instalados.
+* Maven instalado (ou utilize o `mvnw` incluso).
 
-Estrutura de Configuração
+### 2. Variáveis de Ambiente
 
-application.yml
+A aplicação utiliza variáveis de ambiente para proteger dados sensíveis. Crie um arquivo **`.env`** na raiz do projeto (este arquivo está no `.gitignore`):
 
-O arquivo application.yml não contém valores sensíveis diretamente. Ele apenas referencia variáveis de ambiente:
-
-spring:
-  application:
-    name: userprofileservice
-
-  datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
-api:
-  security:
-    token:
-      secret: ${JWT_SECRET}
-
-Variáveis de Ambiente (.env)
-
-As credenciais e segredos são definidos em um arquivo .env (não versionado):
-
+```env
 DB_URL=jdbc:postgresql://localhost:5432/user_profile_db
 DB_USERNAME=user_profile_user
 DB_PASSWORD=user_profile_pass
-JWT_SECRET=b9d1f7c8a3e4f6d2c7a8f1e9b0a4c5d6e7f8a9b1c2d3e4f5a6b7c8d9e0f1a2
+JWT_SECRET=seu_segredo_jwt_aqui_muito_longo_e_seguro
 
-📌 Importante:
+```
 
-O .env deve estar no root do projeto
+### 3. Subindo o Banco de Dados
 
-Ele deve estar listado no .gitignore
+O projeto utiliza Docker para instanciar o PostgreSQL rapidamente:
 
-🐳 Docker (PostgreSQL)
-
-O Docker é utilizado apenas para o banco de dados.
-
-docker-compose.yml
-
-services:
-  postgres:
-    image: postgres:16
-    container_name: user-profile-postgres
-    restart: always
-    environment:
-      POSTGRES_DB: user_profile_db
-      POSTGRES_USER: user_profile_user
-      POSTGRES_PASSWORD: user_profile_pass
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
-
-Subir o banco
-
+```bash
 docker-compose up -d
 
-Executando a Aplicação
+```
 
-Suba o PostgreSQL com Docker:
+### 4. Executando a Aplicação
 
-docker-compose up -d
+Com o banco rodando, inicie o serviço Spring Boot:
 
-Configure o arquivo .env
-
-Execute o Spring Boot:
-
+```bash
 mvn spring-boot:run
 
-Ou diretamente pela IDE (IntelliJ / VS Code).
+```
 
-Segurança
+---
 
-Autenticação baseada em JWT
+## 🔒 Segurança
 
-O segredo do token é carregado via variável de ambiente
+A segurança é implementada via **Spring Security** com foco em:
 
+* **JWT:** Tokens gerados no login e validados em cada requisição protegida.
+* **Externalização:** O segredo do token (`JWT_SECRET`) nunca é exposto no código fonte, sendo lido diretamente do ambiente.
+
+---
+
+## 📂 Estrutura de Arquivos Chave
+
+* `src/main/resources/application.yml`: Configurações gerais que referenciam as variáveis de ambiente.
+* `docker-compose.yml`: Definição do serviço de banco de dados.
+* `.env`: (Não versionado) Contém as credenciais locais.
