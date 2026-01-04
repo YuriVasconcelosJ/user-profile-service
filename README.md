@@ -1,8 +1,3 @@
-Com certeza! Preparei uma versão estruturada em **Markdown** seguindo as melhores práticas de documentação para o GitHub, utilizando ícones, seções claras e blocos de código bem definidos.
-
-Basta copiar o conteúdo abaixo e colar no seu arquivo `README.md`.
-
----
 
 # 👤 User Profile Service
 
